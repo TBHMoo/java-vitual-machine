@@ -9,8 +9,6 @@ public class SingleTon1 {
     }
 
     public static void main(String[] args) {
-        for (int i=0;i<100;i++){
-
-        }
+        SingleTon1 singleTon1 =  getSingleTon1();
     }
 }

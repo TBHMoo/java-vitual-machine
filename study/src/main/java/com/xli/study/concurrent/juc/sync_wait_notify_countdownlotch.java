@@ -1,4 +1,4 @@
-package com.xli.study.juc.sss;
+package com.xli.study.concurrent.juc;
 
 import java.util.concurrent.CountDownLatch;
 
