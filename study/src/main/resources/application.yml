@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/studentdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+#    username: root
+#    password: root
+
+  redis:
+    #此处应填写服务器ip 通过上述命令 ip addr 可查看
+    host: localhost
+#    host:
+    #redis端口
+    port: 6379
+    # Redis数据库索引（默认为0） 密码之类的 默认是没有的可以写
+    database: 0
+
+  freemarker:
+    suffix: html
+
+# 打印SQL语句
+#logging:
+#  level:
+#    #改为自己的mapper包路径
+#    com.nebula.springboot_redis.mapper: debug
