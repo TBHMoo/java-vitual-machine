@@ -18,7 +18,8 @@ spring:
     database: 0
 
   freemarker:
-    suffix: html
+    suffix: .html
+    template-loader-path: classpath:/templates/ #模板路径
 
 # 打印SQL语句
 #logging:
