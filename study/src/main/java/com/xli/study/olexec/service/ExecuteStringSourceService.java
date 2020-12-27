@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaFileObject;
-import java.net.URI;
-import java.util.Locale;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.concurrent.*;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -29,7 +29,7 @@ public class ExecuteStringSourceService {
 
     private final static long THREAD_MAX_WAIT_TIME = 15;
     /* 客户端发来的程序的运行时间限制 */
-    private static final int RUN_TIME_LIMITED = 15;
+    private static final int RUN_TIME_LIMITED = 15*1000;
 
 
     /**
@@ -46,11 +46,12 @@ public class ExecuteStringSourceService {
         final byte[] classBytes = StringSourceCompiler.compile(source,compilerCollector);
         // 编译出错
         if (null == classBytes){
-//            compilerCollector;
             for (Diagnostic diagnostic:compilerCollector.getDiagnostics()){
-                runResult.append("Line :").append(diagnostic.getLineNumber());
-                runResult.append("Message : ").append(diagnostic.getMessage(Locale.getDefault()));
+                runResult.append(diagnostic.toString());
+                runResult.append(System.lineSeparator());
+
             }
+            return runResult.toString();
         }
         // 执行
 
@@ -73,7 +74,7 @@ public class ExecuteStringSourceService {
         } catch (InterruptedException e) {
             runResult.append( "Program interrupted.");
         } catch (ExecutionException e) {
-            runResult.append( e.getCause().getMessage());
+            runResult.append(e.toString());
         } catch (TimeoutException e) {
             runResult.append( "Time Limit Exceeded.");
         } finally {
@@ -82,17 +83,18 @@ public class ExecuteStringSourceService {
         if(null == runResult) {
             return "wooo ho 出错了";
         }
+        System.out.println(runResult);
         return runResult.toString();
     }
 
         public static void main(String[] args) {
-            String source = "public class Run {"
-                            + "public static void main(String[] args) {"
-                            + "        System.out.print(999);"
-                            + "}"
-                            + "}";
-            ExecuteStringSourceService stringSourceService = new ExecuteStringSourceService();
-            stringSourceService.execute(source,null);
+//            String source = "public class Run {"
+//                            + "public static void main(String[] args) {"
+//                            + "        System.out.print(999);"
+//                            + "}"
+//                            + "}";
+//            ExecuteStringSourceService stringSourceService = new ExecuteStringSourceService();
+//            stringSourceService.execute(source,null);
 //            Matcher matcher = CLASS_PATTERN.matcher(source);
 //            String className;
 //            if (matcher.find()) {
@@ -111,5 +113,15 @@ public class ExecuteStringSourceService {
 //                System.out.println(diagnostic.toString());
 //
 //            }
+
+            ByteArrayOutputStream baoStream = new ByteArrayOutputStream(1024);
+            PrintStream cacheStream = new PrintStream(baoStream);
+            PrintStream oldStream = System.out;
+            System.setOut(cacheStream);//不打印到控制台
+            String outString = new String();
+            System.out.println("System.out.println:test");
+            String strMsg = baoStream.toString();
+            System.out.println(strMsg);
+
         }
 }

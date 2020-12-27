@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 public class RunCodeController {
@@ -15,11 +14,11 @@ public class RunCodeController {
     @Autowired
     private ExecuteStringSourceService executeStringSourceService;
 
-    private static final String defaultSource = "public class Run {"
-                    + "public static void main(String[] args) {"
-                    + "        System.out.print(wooooo ho);"
-                    + "}"
-                    + "}";
+    private static final String defaultSource = "public class Run {\n"
+            + "    public static void main(String[] args) {\n"
+            + "        \n"
+            + "    }\n"
+            + "}";
 
     @RequestMapping(path = {"/"}, method = RequestMethod.GET)
     public String entry(Model model) {
