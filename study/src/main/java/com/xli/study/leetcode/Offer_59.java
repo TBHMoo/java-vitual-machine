@@ -1,0 +1,52 @@
+package com.xli.study.leetcode;
+
+import java.util.Deque;
+import java.util.LinkedList;
+
+/**
+ * @author: 李翔  lixiang1@baozun.com
+ * @time: 2020-12-31 12:59
+ */
+public class Offer_59{
+
+    class Solution {
+        public int[] maxSlidingWindow(int[] nums, int k) {
+            if(nums == null){
+                return new int[0];
+            }
+            int length = nums.length;
+            int[] res = new int[length-k+1];
+            Deque<Integer> deque = new LinkedList<>();//deque 非严格递减，deque.getFirst() 就是窗口内最大值
+
+            int initmax = nums[0];
+            for (int i=0; i<k;i++){
+                if(initmax < nums[i]){
+                    initmax = nums[i];
+                }
+            }
+            deque.addFirst(initmax);
+            res[0] = deque.getFirst();
+            for(int i = 0,j=k-1;j<length;i++,j++){
+                if(i>0){
+                    // 移出 nums[i] deque中小于 nums[i] 的元素全部移除
+                    if(deque.getFirst().equals(nums[i-1])){
+                        deque.removeFirst();
+                    }
+
+                    // 移入 nums[j] 小于 dequeFirst ,追加到 dequelast, 大于等于dequeFirst 追加到 dequeFirst 删除小于的元素
+                    while(!deque.isEmpty() && deque.getLast() < nums[j]){
+                        deque.removeLast();
+                    }
+                    deque.addLast(nums[j]);
+                    // 获取窗口 i,j 内的最大值r
+                    res[i] = deque.getFirst();
+                }
+            }
+            return res;
+
+
+
+        }
+    }
+
+}
