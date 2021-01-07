@@ -136,8 +136,8 @@ ps.  docker 已经有成熟的redis cluster镜像工具，一键生成 redis clu
 ### 问题？
 
 ###参考
-- 《Redis官方文档》Redis集群教程 :<https://ifeve.com/redis-cluster-tutorial/>
-- 《Redis官方教程》Redis集群规范:<https://ifeve.com/redis-cluster-spec/>
+- 《Redis官方文档》Redis集群教程 : <https://ifeve.com/redis-cluster-tutorial/>
+- 《Redis官方教程》Redis集群规范 : <https://ifeve.com/redis-cluster-spec/>
 - 《Redis深度历险：核心原理和应用实践》 集群3: 众志成城--Cluster
 - 《Redis设计与实现 - 黄健宏》 第一部分 第二部分 第三部分
 - 《Redis开发与运维(完整版)》 第10章
