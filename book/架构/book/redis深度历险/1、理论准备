@@ -1,0 +1,108 @@
+1、理论准备  
+《redis 开发与运维》 
+《redis 深度历险》  集群篇 
+《redis 设计与实现》 
+http://www.redis.cn/documentation.html
+集群篇
+https://ifeve.com/redis-cluster-tutorial/
+http://ifeve.com/redis-cluster-spec/
+
+2、测试 集群搭建
+docker 搭建redis 集群
+adidascn-rediscluster1-uat.cloud.bz    10.90.81.107
+adidascn-rediscluster2-uat.cloud.bz    10.90.81.143
+adidascn-rediscluster3-uat.cloud.bz    10.90.81.198
+
+3、spring mvc redis cluster 集成
+https://www.cnblogs.com/fengzheng/p/5941953.html
+
+redis cluster 
+redis client 选型 + kryo序列化方式
+letture  高级 
+Jedis    要集成kryo + 需要手动在所有存取方法上显式写代码 序列化和反序列化 影响代码可读性
+spring-data-redis  RedisTemplate   易用+方便支持kryo 序列化方式
+
+https://cloud.tencent.com/developer/article/1349738
+https://www.cnblogs.com/xj76149095/p/10334806.html
+
+4、
+todo  
+测试集成是否成功 本地单元测试  集成成功数据成功写入集群
+
+实现 cacheManager 的cluster 版本  替换cachemanager   32个方法
+
+5、遇见的问题， getValue + getCount .
+
+
+6、替换所有
+redis.sentinel1=adidas-sentinel-member1-prod.cloud.bz:26380
+redis.sentinel2=adidas-sentinel-member2-prod.cloud.bz:26380
+redis.sentinel3=adidas-sentinel-member3-prod.cloud.bz:26380
+redis.mastername=adidas_member
+
+redis.sentinel1=adidas-sentinel01-prod.cloud.bz:26379
+redis.sentinel2=adidas-sentinel02-prod.cloud.bz:26379
+redis.sentinel3=adidas-sentinel03-prod.cloud.bz:26379
+redis.mastername=adidas_hype
+
+redis.sentinel1=adidas-sentinel04-prod.cloud.bz:26379
+redis.sentinel2=adidas-sentinel05-prod.cloud.bz:26379
+redis.sentinel3=adidas-sentinel06-prod.cloud.bz:26379
+redis.mastername=adidas
+
+redis.sentinel1=adidas-sentinel07-prod.cloud.bz:26379
+redis.sentinel2=adidas-sentinel08-prod.cloud.bz:26379
+redis.sentinel3=adidas-sentinel09-prod.cloud.bz:26379
+redis.mastername=adidas_monitor
+
+7、
+zset 实现时间窗口内，最大次数。 
+kryo 
+redis cluster 事务？ 单节点支持
+mget
+
+sentinel 和 cluster 的区别。  
+分布式数据存储，和单点存储的区别 ，一些数据合并操作。
+分槽的存储
+一些合并操作不支持了，例如  mget ,pipline ,事务，rename不再是原子性的，rename 之后会改变key 从而改变hash 值，也许会分配到另一个节点
+
+pipline 替换 
+登陆加速
+
+transation 处理   MemberRegisterController
+kryo  测试
+
+8、测试kryo序列化和反序列化， 观察压测环境日志报错
+
+9、上线过程，并没有选择完全
+
+10、
+
+lockSetObject？ redis 并发写方法？
+
+
+  定时任务处理
+        切换redis cluster 后需要先刷的任务
+                        schedule  
+                        商品发售日历刷新                  itemSubscribeRefreshManager     0 0/5 * * * ?        
+                        定时刷新商品热数据缓存最近3天售卖数量    refreshItemManager  0 20 3 * * ?        
+                        微信分享活动数据处理          weChatShareActivityHandleManager    0 0/40 * * * ?
+
+                        wormhole
+                        更新CRM会员信息        msCrmMembreInfoQueryManager   0 0 1 * * ?
+                        实时推送上架商品信息到推荐引擎         itemOnShelvesPushManager 0 0/10 * * * ?     
+						本周热卖 有两个定时任务，分顺序  0 0 0/6 * * ?
+
+
+skywalking 服务拓扑图上 csl 有使用redis
+frontend-m 的链接是 hub 和 protostar-backend 里面有一套自己实现的redis sentinel，
+
+你上面的还有 csl ugc wormhole 还是连在frontend上面
+
+
+shardingSphere  demo 项目
+union 语句
+
+
+抢鞋咋玩的？
+秒杀咋玩的。

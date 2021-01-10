@@ -24,7 +24,7 @@ redis 分布式缓存, jvm ，多线程
 理论准备
 
 面试遇到问题的点：
-java 基础
+java 基础 java集合框架
 atomic原子类的实现原理；
 concurrentHashMap与hashTable的区别； 
 + redis clsuter 数据迁移 
