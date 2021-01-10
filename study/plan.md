@@ -71,6 +71,22 @@ jmap 查看线程调用栈
 java8的方法引用；4中，
  强引用， 弱引用，软引用，虚引用 ，划分依据是对象对内存占用的强弱
  
+ 虚引用的使用场景
+ 
+ java的集合体系，设计模式，排序算法
+ IO   网络通信，BIO ，NIO Netty epoll/select 多路复用
+ JUC  线程/锁/队列/线程池
+ 
+ spring ioc,aop
+ 容器  对象bean  放进去、取出来
+ 
+ AKF 
+ 
+ JVM 
+ linux内核
+ CPU
+
+ 
 
 数据库,
 分库分表的实现方案
