@@ -1,22 +1,29 @@
 redis 深度历险
 
-【缓存】  
+#【缓存】  
 https://coolshell.cn/articles/17416.html
 
-错误的套路  （先删除缓存，然后再更新数据库）
-remove cache
-update db
-push cache 
+#错误的套路  （先删除缓存，然后再更新数据库）
+- remove cache
+- update db
+- push cache 
 
-两个并发操作，一个更新，一个查询。  更新操作删除缓存后，查询操作没有命中缓存，先把老数据读出来放到了缓存中，然后更新操作更新了数据库
+```
+两个并发操作，一个更新，一个查询。  
+更新操作删除缓存后，查询操作没有命中缓存，先把老数据读出来放到了缓存中，然后更新操作更新了数据库
 w remove cache
    r  从cache去读数据，没有命中缓存，把老数据读取出来放到了缓存中
   update db
   push cache 
 
-缓存更新的套路
-Design Pattern （Cache Aside Pattern、  Read/Write Through Pattern ， Write Behind Caching Pattern）
-Cache Aside Pattern （这是最常用最常用的pattern了）
+```
+
+#缓存更新的套路
+- Design Pattern
+    - Cache Aside Pattern
+    - Read/Write Through Pattern 
+    - Write Behind Caching Pattern
+## Cache Aside Pattern （这是最常用最常用的pattern了）
 失效： 
 	a、 应用程序先从cache 获取数据，没有得到
 	b、 从数据库中取数据，成功后
