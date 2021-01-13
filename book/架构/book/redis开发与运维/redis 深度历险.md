@@ -73,7 +73,7 @@ Write Back套路，一句说就是，在更新数据的时候，只更新缓存�
 https://coolshell.cn/articles/10910.html
 
 
-Redis有哪些数据结构？
+# Redis有哪些数据结构？
 String  list  hash  set  sortedSet   
 stream 借鉴了kafka的设计
 
