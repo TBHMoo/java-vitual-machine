@@ -61,8 +61,6 @@ public class LRUCache{
             node.value = value;
             moveToHead(node);
         }
-
-
     }
 
     public class DoubleLinkedNode implements Serializable{
