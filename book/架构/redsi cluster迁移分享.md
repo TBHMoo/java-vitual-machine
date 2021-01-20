@@ -37,27 +37,24 @@ Redis虚拟槽分区的特点：
 ·支持节点、槽、键之间的映射查询，用于数据路由、在线伸缩等场
 景。
 
-2、集群功能限制   (分布式数据库的代价 redis cluster 合并操作，mget， shareding-sphere 的union操作)
+- 集群功能限制   (分布式数据库的代价 redis cluster 合并操作，mget， shareding-sphere 的union操作)
 Redis集群相对单机在功能上存在一些限制
 
-1、key作为数据分区的最小粒度，因此不能将一个大的键值对象如
-2、key事务操作支持有限。同理只支持多key在同一节点上的事务操
-作，当多个key分布在不同的节点上时无法使用事务功能。
-3）key作为数据分区的最小粒度，因此不能将一个大的键值对象如
-hash、list等映射到不同的节点。
-4）不支持多数据库空间。单机下的Redis可以支持16个数据库，集群模
-式下只能使用一个数据库空间，即db0。
+    - 1、key作为数据分区的最小粒度，因此不能将一个大的键值对象如
+    - 2、key事务操作支持有限。同理只支持多key在同一节点上的事务操作，当多个key分布在不同的节点上时无法使用事务功能。
+    - 3）key作为数据分区的最小粒度，因此不能将一个大的键值对象如hash、list等映射到不同的节点。
+    - 4）不支持多数据库空间。单机下的Redis可以支持16个数据库，集群模式下只能使用一个数据库空间，即db0。
 
 #搭建集群
-1）准备节点。 以集群模式启动节点 cluster-enabled yes
-2）节点握手。 节点间通信，cluster meet host port 
-节点建立握手之后集群还不能正常工作，这时集群处于下线状态，所有
-的数据读写都被禁止。
-3）分配槽。 {0..5000}   {0...5000} 写法不同
- cluster addslots {0..5000}
- cluster addslots {5001..10000}
- cluster addslots {10001..16383}
-4)设置从节点
+- 1）准备节点。 以集群模式启动节点 cluster-enabled yes
+- 2）节点握手。 节点间通信，cluster meet host port 节点建立握手之后集群还不能正常工作，这时集群处于下线状态，所有的数据读写都被禁止。
+- 3）分配槽。 {0..5000}   {0...5000} 写法不同
+```
+cluster addslots {0..5000}
+cluster addslots {5001..10000}
+cluster addslots {10001..16383}
+```  
+- 4)设置从节点
 
 172.17.0.2:6379> cluster nodes
 c842afc66bf0693c4d4bace463b1efe36e8e677b 172.17.0.7:6384@16384 slave 27bd6fd3b08b1d27b6105ac404791e6a943563d7 0 1606644861007 2 connected
@@ -67,12 +64,12 @@ dd9a8d8593aa9ed10526e5e5fe2080b9f78894c9 172.17.0.2:6379@16379 myself,master - 0
 5fbdc46f395f67846d8e0032554e55b1bc1a1dd1 172.17.0.5:6382@16382 slave dd9a8d8593aa9ed10526e5e5fe2080b9f78894c9 0 1606644859000 0 connected
 619ef65eae65daf02639a6e15a1987fc513832a0 172.17.0.6:6383@16383 slave 6ae787029fe418439a34e0fcf89c53f80b28aa4c 0 1606644860002 1 connected
 
-dummy client
+# dummy client
 172.17.0.2:6379> set foo bar
 (error) MOVED 12182 172.17.0.4:6381
 MOVED 错误表示这个 key foo 对应的槽 12182 是节点172.17.0.4:6381 负责，你应该连 172.17.0.4:6381 去执行命令 set foo bar
 
-smart client
+# smart client
 172.17.0.2:6379> cluster slots  / 有的版本是 cluster hints
 1) 1) (integer) 5001
    2) (integer) 10000
